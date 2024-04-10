@@ -1,3 +1,10 @@
+# Caches
+.cache/
+CMakeCache.txt
+CMakeFiles/
+Testing/
+
+
 # Prerequisites
 *.d
 

@@ -1,0 +1,13 @@
+fail_fast: false
+exclude: libs
+repos:
+  - repo: https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
+    hooks:
+      - id: clang-format
+        args: [-i]
+      - id: clang-tidy
+      - id: cppcheck
+      - id: cpplint
+        args: ["--filter=-whitespace,-legal/copyright"]
+      - id: include-what-you-use
