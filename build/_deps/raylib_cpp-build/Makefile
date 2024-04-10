@@ -142,14 +142,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/CMakeFiles /home/enrique/Documents/EDA/KD-Tree/build/tests//CMakeFiles/progress.marks
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/all
+	cd /home/enrique/Documents/EDA/KD-Tree/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/CMakeFiles /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-build//CMakeFiles/progress.marks
+	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib_cpp-build/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/clean
+	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib_cpp-build/clean
 .PHONY : clean
 
 # The main clean target
@@ -158,56 +158,18 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
+	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib_cpp-build/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
+	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _deps/raylib_cpp-build/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
 	cd /home/enrique/Documents/EDA/KD-Tree/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-# Convenience name for target.
-tests/CMakeFiles/sampleTest.dir/rule:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/sampleTest.dir/rule
-.PHONY : tests/CMakeFiles/sampleTest.dir/rule
-
-# Convenience name for target.
-sampleTest: tests/CMakeFiles/sampleTest.dir/rule
-.PHONY : sampleTest
-
-# fast build rule for target.
-sampleTest/fast:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sampleTest.dir/build.make tests/CMakeFiles/sampleTest.dir/build
-.PHONY : sampleTest/fast
-
-sample.o: sample.cpp.o
-.PHONY : sample.o
-
-# target to build an object file
-sample.cpp.o:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sampleTest.dir/build.make tests/CMakeFiles/sampleTest.dir/sample.cpp.o
-.PHONY : sample.cpp.o
-
-sample.i: sample.cpp.i
-.PHONY : sample.i
-
-# target to preprocess a source file
-sample.cpp.i:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sampleTest.dir/build.make tests/CMakeFiles/sampleTest.dir/sample.cpp.i
-.PHONY : sample.cpp.i
-
-sample.s: sample.cpp.s
-.PHONY : sample.s
-
-# target to generate assembly for a file
-sample.cpp.s:
-	cd /home/enrique/Documents/EDA/KD-Tree/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/sampleTest.dir/build.make tests/CMakeFiles/sampleTest.dir/sample.cpp.s
-.PHONY : sample.cpp.s
 
 # Help Target
 help:
@@ -222,10 +184,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... sampleTest"
-	@echo "... sample.o"
-	@echo "... sample.i"
-	@echo "... sample.s"
 .PHONY : help
 
 

@@ -8,10 +8,17 @@ project(
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
+if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
+  message(
+    STATUS
+      "CMake version is less than 3.25.2, upgrade to silence unnecesary warnings"
+  )
+endif()
+
 # ##############################################################################
 # Targets
 
-add_executable(KD_TREE src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp)
 
 # ##############################################################################
 
@@ -57,24 +64,59 @@ target_link_options(
 # Threads needed in gcc
 set(THREADS_HAVE_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(KD_TREE PUBLIC Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
 
 # config
-target_link_libraries(KD_TREE PRIVATE common)
+target_link_libraries(${PROJECT_NAME} PRIVATE common)
+
+# ##############################################################################
 
 # SpdLog
-
 find_package(spdlog QUIET)
+if(NOT spdlog_FOUND)
+  message(STATUS "SpdLog not found, downloading latest version")
 
-if(spdlog_FOUND)
-  message(STATUS "Found spdlog")
-  target_link_libraries(KD_TREE PUBLIC spdlog::spdlog)
-else()
-  # Only use this if spdlog is not installed on your system
-  message(STATUS "SpdLog not found, using bundled version")
-  target_include_directories(KD_TREE SYSTEM
-                             PUBLIC ${CMAKE_SOURCE_DIR}/libs/SpdLog/)
+  include(FetchContent)
+  FetchContent_Declare(
+    spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.x)
+  FetchContent_MakeAvailable(spdlog)
 endif()
+target_link_libraries(${PROJECT_NAME} PRIVATE common)
+
+# Raylib
+find_package(raylib QUIET)
+if(NOT raylib_FOUND)
+  message(STATUS "Raylib (C) not found, downloading latest version")
+  include(FetchContent)
+  FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY https://github.com/raysan5/raylib.git
+    GIT_TAG 5.0
+    GIT_SHALLOW 1)
+  FetchContent_MakeAvailable(raylib)
+endif()
+
+# raylib-cpp
+find_package(raylib_cpp QUIET)
+if(NOT raylib_cpp_FOUND)
+
+  message(STATUS "Raylib_cpp (C++) not found, downloading latest version")
+
+  if(NOT DEFINED RAYLIB_CPP_VERSION)
+    set(RAYLIB_CPP_VERSION v5.0.1)
+  endif()
+  include(FetchContent)
+  FetchContent_Declare(
+    raylib_cpp
+    GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+    GIT_TAG ${RAYLIB_CPP_VERSION})
+  FetchContent_MakeAvailable(raylib_cpp)
+endif()
+
+# Adding libraries to project
+target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp spdlog)
 
 # Ctest
 include(FetchContent)

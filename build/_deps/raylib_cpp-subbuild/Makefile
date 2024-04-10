@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-subbuild
+CMAKE_SOURCE_DIR = /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-subbuild
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-subbuild
+CMAKE_BINARY_DIR = /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-subbuild
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-subbuild/CMakeFiles /home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-subbuild//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-subbuild/CMakeFiles /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-subbuild//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-subbuild/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-subbuild/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,17 +117,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named googletest-populate
+# Target rules for targets named raylib_cpp-populate
 
 # Build rule for target.
-googletest-populate: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 googletest-populate
-.PHONY : googletest-populate
+raylib_cpp-populate: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 raylib_cpp-populate
+.PHONY : raylib_cpp-populate
 
 # fast build rule for target.
-googletest-populate/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/googletest-populate.dir/build.make CMakeFiles/googletest-populate.dir/build
-.PHONY : googletest-populate/fast
+raylib_cpp-populate/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/raylib_cpp-populate.dir/build.make CMakeFiles/raylib_cpp-populate.dir/build
+.PHONY : raylib_cpp-populate/fast
 
 # Help Target
 help:
@@ -137,7 +137,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... googletest-populate"
+	@echo "... raylib_cpp-populate"
 .PHONY : help
 
 

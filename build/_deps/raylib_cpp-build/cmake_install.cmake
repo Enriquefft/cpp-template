@@ -1,4 +1,4 @@
-# Install script for directory: /home/enrique/Documents/EDA/KD-Tree
+# Install script for directory: /home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -43,27 +43,8 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-build/cmake_install.cmake")
+  # Include the install script for each subdirectory.
+  include("/home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-build/include/cmake_install.cmake")
+
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-build/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/enrique/Documents/EDA/KD-Tree/build/tests/cmake_install.cmake")
-endif()
-
-if(CMAKE_INSTALL_COMPONENT)
-  set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
-else()
-  set(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
-endif()
-
-string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
-       "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/enrique/Documents/EDA/KD-Tree/build/${CMAKE_INSTALL_MANIFEST}"
-     "${CMAKE_INSTALL_MANIFEST_CONTENT}")

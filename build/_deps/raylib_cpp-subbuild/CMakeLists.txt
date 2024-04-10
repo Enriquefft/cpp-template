@@ -13,7 +13,7 @@ unset(ENV{CMAKE_TOOLCHAIN_FILE})
 # to something that will highlight to the user what we are working on if
 # something goes wrong and an error message is produced.
 
-project(googletest-populate NONE)
+project(raylib_cpp-populate NONE)
 
 
 # Pass through things we've already detected in the main project to avoid
@@ -26,10 +26,10 @@ set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
 
 
 include(ExternalProject)
-ExternalProject_Add(googletest-populate
-                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/google/googletest.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "main"
-                    SOURCE_DIR          "/home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-src"
-                    BINARY_DIR          "/home/enrique/Documents/EDA/KD-Tree/build/_deps/googletest-build"
+ExternalProject_Add(raylib_cpp-populate
+                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/RobLoach/raylib-cpp.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "v5.0.1"
+                    SOURCE_DIR          "/home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-src"
+                    BINARY_DIR          "/home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

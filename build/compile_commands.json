@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/enrique/Documents/EDA/KD-Tree/build",
-  "command": "/usr/bin/c++ -DFMT_SHARED -DSPDLOG_COMPILED_LIB -DSPDLOG_FMT_EXTERNAL -DSPDLOG_SHARED_LIB  -std=gnu++20 -Werror -Wall -Wextra -Wpedantic -Wformat=2 -Wshadow -Wwrite-strings -Wcast-qual -Wcast-align -Wno-switch -Wconversion -fsanitize=address,undefined -fsanitize-address-use-after-scope -o CMakeFiles/KD_TREE.dir/src/main.cpp.o -c /home/enrique/Documents/EDA/KD-Tree/src/main.cpp",
+  "command": "/usr/bin/c++  -I/home/enrique/Documents/EDA/KD-Tree/build/_deps/raylib_cpp-src/include -std=gnu++20 -Werror -Wall -Wextra -Wpedantic -Wformat=2 -Wshadow -Wwrite-strings -Wcast-qual -Wcast-align -Wno-switch -Wconversion -fsanitize=address,undefined -fsanitize-address-use-after-scope -I/usr/include -o CMakeFiles/KD_TREE.dir/src/main.cpp.o -c /home/enrique/Documents/EDA/KD-Tree/src/main.cpp",
   "file": "/home/enrique/Documents/EDA/KD-Tree/src/main.cpp",
   "output": "CMakeFiles/KD_TREE.dir/src/main.cpp.o"
 },
