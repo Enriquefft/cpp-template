@@ -3,10 +3,12 @@ exclude: libs
 
 
 repos:
-  # - repo: <https://github.com/commitizen-tools/commitizen>
-  #   rev: v1.17.0
-  #   hooks:
-  #     - id: commitizen
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.21.3
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages: [push]
   - repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
     hooks:
