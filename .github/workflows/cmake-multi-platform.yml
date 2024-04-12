@@ -35,7 +35,7 @@ jobs:
             cpp_compiler: g++-13
           - os: ubuntu-latest
             c_compiler: clang-17
-            cpp_compiler: clang-17
+            cpp_compiler: clang++-17
         exclude:
           - os: windows-latest
             c_compiler: gcc-13
@@ -55,8 +55,11 @@ jobs:
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
     - name: update clang to clang-17 only
-      if: matrix.cpp_compiler == 'clang-17'
+      if: matrix.c_compiler == 'clang-17'
       run: |
+        # Avoid `Conflicts: python3-lldb-x.y` between packages.
+        # https://github.com/google/re2/blob/main/.github/workflows/ci.yml
+        sudo apt purge -y python3-lldb-14
         wget https://apt.llvm.org/llvm.sh
         chmod u+x llvm.sh
         sudo ./llvm.sh 17
