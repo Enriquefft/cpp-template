@@ -84,7 +84,8 @@ if(NOT spdlog_FOUND)
   FetchContent_Declare(
     spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG v1.x)
+    GIT_TAG v1.x
+    GIT_SHALLOW 1)
   FetchContent_MakeAvailable(spdlog)
 endif()
 target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
@@ -98,7 +99,9 @@ if(NOT raylib_FOUND)
     raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
     GIT_TAG master
-    GIT_SHALLOW 1)
+    GIT_SHALLOW 1
+    SYSTEM)
+
   FetchContent_MakeAvailable(raylib)
 endif()
 
@@ -110,6 +113,7 @@ if(NOT raylib_cpp_FOUND)
     raylib_cpp
     GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
     GIT_TAG master
+    GIT_SHALLOW 1
     SYSTEM)
   FetchContent_MakeAvailable(raylib_cpp)
 endif()
