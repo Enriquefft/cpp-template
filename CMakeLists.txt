@@ -77,17 +77,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE common)
 
 # SpdLog
 find_package(spdlog QUIET)
-if(NOT spdlog_FOUND)
-  message(STATUS "SpdLog not found, downloading latest version")
-
-  include(FetchContent)
-  FetchContent_Declare(
-    spdlog
-    GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG v1.x
-    GIT_SHALLOW 1
-    SYSTEM)
-  FetchContent_MakeAvailable(spdlog)
+if(spdlog_FOUND)
+  target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
+else()
+  # Only use this if spdlog is not installed on your system
+  message(STATUS "SpdLog not found, using bundled version")
+  target_include_directories(${PROJECT_NAME} SYSTEM
+                             PUBLIC ${CMAKE_SOURCE_DIR}/libs/spdlog/)
 endif()
 target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
 
@@ -102,7 +98,6 @@ if(NOT raylib_FOUND)
     GIT_TAG master
     GIT_SHALLOW 1
     SYSTEM)
-
   FetchContent_MakeAvailable(raylib)
 endif()
 
@@ -120,7 +115,7 @@ if(NOT raylib_cpp_FOUND)
 endif()
 
 # Adding libraries to project
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib spdlog)
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib_cpp)
 
 # ##############################################################################
