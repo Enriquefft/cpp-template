@@ -113,6 +113,7 @@ endif()
 
 # Adding libraries to project
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib spdlog)
+target_link_libraries(${PROJECT_NAME} INTERFACE raylib_cpp)
 
 # ##############################################################################
 # Ctest
