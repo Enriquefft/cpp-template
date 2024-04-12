@@ -1,7 +1,16 @@
-#include <raylib-cpp.hpp>
+#include <Texture.hpp>
+#include <Window.hpp>
+#include <raylib.h>
 #include <spdlog/spdlog.h>
 
+#include <iostream>
+#include <vector>
 int main() {
+
+  std::vector<int> v{1, 2, 3};
+
+  std::cout << v.at(2) << " hi\n";
+
   int screenWidth = 800;
   int screenHeight = 450;
 

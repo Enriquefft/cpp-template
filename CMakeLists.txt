@@ -24,7 +24,9 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 add_library(common INTERFACE)
 target_compile_features(common INTERFACE cxx_std_20)
-set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE include-what-you-use)
+find_program(iwyu_path NAMES include-what-you-use iwyu REQUIRED)
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE
+                                                 ${iwyu_path})
 
 target_compile_options(
   common
@@ -55,7 +57,7 @@ target_compile_options(
             $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
-            $<$<CONFIG:RELEASE>:-O0>
+            $<$<CONFIG:RELEASE>:-Ofast>
             $<$<CONFIG:DEBUG>:-O0>
             $<$<CONFIG:DEBUG>:-ggdb3>)
 
@@ -107,13 +109,14 @@ if(NOT raylib_cpp_FOUND)
   FetchContent_Declare(
     raylib_cpp
     GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
-    GIT_TAG master)
+    GIT_TAG master
+    SYSTEM)
   FetchContent_MakeAvailable(raylib_cpp)
 endif()
 
 # Adding libraries to project
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib spdlog)
-target_link_libraries(${PROJECT_NAME} INTERFACE raylib_cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib_cpp)
 
 # ##############################################################################
 # Ctest
