@@ -85,7 +85,8 @@ if(NOT spdlog_FOUND)
     spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
     GIT_TAG v1.x
-    GIT_SHALLOW 1)
+    GIT_SHALLOW 1
+    SYSTEM)
   FetchContent_MakeAvailable(spdlog)
 endif()
 target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
