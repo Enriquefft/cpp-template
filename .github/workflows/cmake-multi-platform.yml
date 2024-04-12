@@ -25,7 +25,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
-        c_compiler: [gcc-13, clang, cl]
+        c_compiler: [gcc-13, clang-17, cl]
         include:
           - os: windows-latest
             c_compiler: cl
@@ -34,13 +34,13 @@ jobs:
             c_compiler: gcc-13
             cpp_compiler: g++-13
           - os: ubuntu-latest
-            c_compiler: clang
-            cpp_compiler: clang
+            c_compiler: clang-17
+            cpp_compiler: clang-17
         exclude:
           - os: windows-latest
             c_compiler: gcc-13
           - os: windows-latest
-            c_compiler: clang
+            c_compiler: clang-17
           - os: ubuntu-latest
             c_compiler: cl
 
@@ -53,6 +53,13 @@ jobs:
       shell: bash
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+    - name: update clang to clang-17 only
+      if: matrix.cpp_compiler == 'clang-17'
+      run: |
+        wget https://apt.llvm.org/llvm.sh
+        chmod u+x llvm.sh
+        sudo ./llvm.sh 17
 
     - name: Run on Ubuntu only
       if: matrix.os == 'ubuntu-latest'
