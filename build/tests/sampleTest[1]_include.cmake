@@ -1,5 +1,0 @@
-if(EXISTS "/home/enrique/Documents/EDA/KD-Tree/build/tests/sampleTest[1]_tests.cmake")
-  include("/home/enrique/Documents/EDA/KD-Tree/build/tests/sampleTest[1]_tests.cmake")
-else()
-  add_test(sampleTest_NOT_BUILT sampleTest_NOT_BUILT)
-endif()
