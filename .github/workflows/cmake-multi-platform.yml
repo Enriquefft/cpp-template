@@ -57,10 +57,13 @@ jobs:
     - name: Run on Ubuntu only
       if: matrix.os == 'ubuntu-latest'
       run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa
         sudo apt update
         sudo apt upgrade
+        sudo apt install gcc-13 g++-13
         sudo apt install libasound2-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxcursor-dev libxinerama-dev libwayland-dev libxkbcommon-dev
         sudo apt install iwyu
+        g++ --version
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
