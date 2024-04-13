@@ -73,10 +73,9 @@ target_compile_options(
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
             -Ofast
             >
-            $<$<CXX_COMPILER_ID:MSVC>:
-            /GL
-            /LTCG
-            /O3>>)
+            # TODO: re-add this later
+            # $<$<CXX_COMPILER_ID:MSVC>: /GL /LTCG /O3 >
+            >)
 
 target_link_options(
   common INTERFACE
