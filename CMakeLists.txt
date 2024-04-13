@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 add_library(common INTERFACE)
 target_compile_features(common INTERFACE cxx_std_20)
+# TODO: add iwty required - curently not working on windows
 find_program(iwyu_path NAMES include-what-you-use iwyu)
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE
                                                  ${iwyu_path})
@@ -31,7 +32,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE
 target_compile_options(
   common
   INTERFACE # Prefered warnings
-            $<$<CXX_COMPILER_ID:MSVC>:/W4
+            $<$<CXX_COMPILER_ID:MSVC>:
+            /Wall
             /WX>
             $<$<CXX_COMPILER_ID:Clang>:-Weverything>
             $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
@@ -57,9 +59,24 @@ target_compile_options(
             $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
-            $<$<CONFIG:RELEASE>:-Ofast>
-            $<$<CONFIG:DEBUG>:-O0>
-            $<$<CONFIG:DEBUG>:-ggdb3>)
+            $<$<CONFIG:DEBUG>:
+            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+            -ggdb3
+            -O0
+            >
+            $<$<CXX_COMPILER_ID:MSVC>:
+            /GL
+            /LTCG
+            /O3>>
+            $<$<CONFIG:RELEASE>:
+            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+            -Ofast
+            -flto
+            >
+            $<$<CXX_COMPILER_ID:MSVC>:
+            /GL
+            /LTCG
+            /O3>>)
 
 target_link_options(
   common INTERFACE

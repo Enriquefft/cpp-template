@@ -1,7 +1,18 @@
 #include <Texture.hpp>
 #include <Window.hpp>
 #include <raylib.h>
+
+#if defined(_WIN32)
+#define NOGDI  // All GDI defines and routines
+#define NOUSER // All USER defines and routines
+#endif
+
 #include <spdlog/spdlog.h>
+
+#if defined(_WIN32) // raylib uses these names as function parameters
+#undef near
+#undef far
+#endif
 
 constexpr int TARGET_FPS = 60;
 
