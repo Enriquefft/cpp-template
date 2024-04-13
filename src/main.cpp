@@ -3,21 +3,22 @@
 #include <raylib.h>
 #include <spdlog/spdlog.h>
 
-#include <iostream>
-#include <vector>
-int main() {
+constexpr int TARGET_FPS = 60;
 
-  std::vector<int> v{1, 2, 3};
+auto main() -> int {
 
-  std::cout << v.at(2) << " hi\n";
+  constexpr int SCREEN_WIDTH = 800;
+  constexpr int SCREEN_HEIGHT = 450;
 
-  int screenWidth = 800;
-  int screenHeight = 450;
+  constexpr int TEXT_X_POS = 190;
+  constexpr int TEXT_Y_POS = 200;
+  constexpr int TEXT_FONT_SIZE = 20;
 
-  raylib::Window window(screenWidth, screenHeight, "raylib-cpp - basic window");
+  raylib::Window window(SCREEN_WIDTH, SCREEN_HEIGHT,
+                        "raylib-cpp - basic window");
   raylib::Texture logo(ASSETS_PATH "dogo.png");
 
-  SetTargetFPS(60);
+  SetTargetFPS(TARGET_FPS);
 
   spdlog::info("Started drawing");
 
@@ -26,12 +27,12 @@ int main() {
 
     window.ClearBackground(RAYWHITE);
 
-    DrawText("Congrats! You created your first window!", 190, 200, 20,
-             LIGHTGRAY);
-
     // Object methods.
-    logo.Draw(screenWidth / 2 - logo.GetWidth() / 2,
-              screenHeight / 2 - logo.GetHeight() / 2);
+    logo.Draw(SCREEN_WIDTH / 2 - logo.GetWidth() / 2,
+              SCREEN_HEIGHT / 2 - logo.GetHeight() / 2);
+
+    DrawText("Congrats! You created your first window!", TEXT_X_POS, TEXT_Y_POS,
+             TEXT_FONT_SIZE, LIGHTGRAY);
 
     EndDrawing();
   }
