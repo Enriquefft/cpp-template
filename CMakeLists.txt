@@ -26,8 +26,9 @@ add_library(common INTERFACE)
 target_compile_features(common INTERFACE cxx_std_20)
 # TODO: add iwty required - curently not working on windows
 find_program(iwyu_path NAMES include-what-you-use iwyu)
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE
-                                                 ${iwyu_path})
+set_target_properties(
+  ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
+                             INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 target_compile_options(
   common
@@ -71,7 +72,6 @@ target_compile_options(
             $<$<CONFIG:RELEASE>:
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
             -Ofast
-            -flto
             >
             $<$<CXX_COMPILER_ID:MSVC>:
             /GL
@@ -142,7 +142,8 @@ FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git # Always fetch the #
                                                           # latest version
-  GIT_TAG main)
+  GIT_TAG main
+  SYSTEM)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt
