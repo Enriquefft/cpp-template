@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 add_library(common INTERFACE)
 target_compile_features(common INTERFACE cxx_std_20)
-find_program(iwyu_path NAMES include-what-you-use iwyu REQUIRED)
+find_program(iwyu_path NAMES include-what-you-use iwyu)
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE
                                                  ${iwyu_path})
 
