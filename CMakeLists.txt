@@ -20,12 +20,12 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 # ##############################################################################
 
-target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
 
 add_library(common INTERFACE)
 target_compile_features(
-  common INTERFACE cxx_std_20) # TODO: add iwty required - curently not working
-                               # on windows
+  common INTERFACE cxx_std_20) 
+
+# TODO: add iwty required - curently not working on windows
 find_program(iwyu_path NAMES include-what-you-use iwyu)
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
@@ -72,8 +72,7 @@ target_compile_options(
             $<$<CONFIG:RELEASE>:
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
             -Ofast
-            > # TODO: re-add this later # $<$<CXX_COMPILER_ID:MSVC>: /GL /LTCG
-              # /O3
+            > 
             >
             >)
 
