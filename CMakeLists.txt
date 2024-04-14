@@ -31,52 +31,52 @@ set_target_properties(
   ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
                              #[[ INTERPROCEDURAL_OPTIMIZATION TRUE ]])
 
-target_compile_options(
-  common
-  INTERFACE # Prefered warnings
-            $<$<CXX_COMPILER_ID:MSVC>:
-            /Wall
-            /WX>
-            $<$<CXX_COMPILER_ID:Clang>:-Weverything>
-            $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
-            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
-            -Werror
-            -Wall
-            -Wextra
-            -Wpedantic
-            -Wformat=2
-            -Wshadow
-            -Wwrite-strings
-            -Wcast-qual
-            -Wcast-align
-            -Wno-switch
-            -Wconversion> # Disable some warnings when using clang's Weverything
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat-pedantic>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-compat>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-extensions>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c99-extensions>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-zero-as-null-pointer-constant>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
-            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
-            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
-            $<$<CONFIG:DEBUG>:
-            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-            -ggdb3
-            -O0
-            >
-            # $<$<CXX_COMPILER_ID:MSVC>:
-            # /GL
-            # /LTCG
-            # /O3>
-						>
-						
-            $<$<CONFIG:RELEASE>:
-            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-            -Ofast
-            > 
-            >
-            )
+# target_compile_options(
+#   common
+#   INTERFACE # Prefered warnings
+#             $<$<CXX_COMPILER_ID:MSVC>:
+#             /Wall
+#             /WX>
+#             $<$<CXX_COMPILER_ID:Clang>:-Weverything>
+#             $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
+#             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
+#             -Werror
+#             -Wall
+#             -Wextra
+#             -Wpedantic
+#             -Wformat=2
+#             -Wshadow
+#             -Wwrite-strings
+#             -Wcast-qual
+#             -Wcast-align
+#             -Wno-switch
+#             -Wconversion> # Disable some warnings when using clang's Weverything
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat>
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat-pedantic>
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-compat>
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-extensions>
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-c99-extensions>
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-zero-as-null-pointer-constant>
+#             $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
+#             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
+#             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
+#             $<$<CONFIG:DEBUG>:
+#             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+#             -ggdb3
+#             -O0
+#             >
+#             # $<$<CXX_COMPILER_ID:MSVC>:
+#             # /GL
+#             # /LTCG
+#             # /O3>
+# 						>
+# 						
+#             $<$<CONFIG:RELEASE>:
+#             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+#             -Ofast
+#             > 
+#             >
+#             )
 
 target_link_options(
   common INTERFACE
