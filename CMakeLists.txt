@@ -29,7 +29,7 @@ target_compile_features(
 find_program(iwyu_path NAMES include-what-you-use iwyu)
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
-                             #[[ INTERPROCEDURAL_OPTIMIZATION TRUE ]])
+                              INTERPROCEDURAL_OPTIMIZATION TRUE )
 
 # target_compile_options(
 #   common
@@ -136,26 +136,26 @@ target_link_libraries(${PROJECT_NAME} PRIVATE raylib_cpp)
 #
 # ##############################################################################
 # Ctest
-# FetchContent_Declare(
-#   googletest
-# 	URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-# )
+FetchContent_Declare(
+  googletest
+	URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
-# set(gtest_force_shared_crt
-#     ON
-#     CACHE BOOL "" FORCE)
-# FetchContent_MakeAvailable(googletest)
-#
-# if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
-#   option(PACKAGE_TESTS "Build the tests" ON)
-# endif()
-#
-# if(${PACKAGE_TESTS})
-#   enable_testing()
-#   include(GoogleTest)
-#   add_subdirectory(tests)
-# endif()
+set(gtest_force_shared_crt
+    ON
+    CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
+  option(PACKAGE_TESTS "Build the tests" ON)
+endif()
+
+if(${PACKAGE_TESTS})
+  enable_testing()
+  include(GoogleTest)
+  add_subdirectory(tests)
+endif()
 
 # ##############################################################################
 # Set the asset path macro to the absolute path on the dev machine
