@@ -22,73 +22,44 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 # ##############################################################################
 
-add_library(common INTERFACE)
-target_compile_features(common INTERFACE cxx_std_20)
-# TODO: add iwty required - curently not working on windows
-find_program(iwyu_path NAMES include-what-you-use iwyu)
-set_target_properties(
-  ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
-                             INTERPROCEDURAL_OPTIMIZATION TRUE)
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
 
-target_compile_options(
-  common
-  INTERFACE # Prefered warnings
-            $<$<CXX_COMPILER_ID:MSVC>:
-            /Wall
-            /WX>
-            $<$<CXX_COMPILER_ID:Clang>:-Weverything>
-            $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
-            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
-            -Werror
-            -Wall
-            -Wextra
-            -Wpedantic
-            -Wformat=2
-            -Wshadow
-            -Wwrite-strings
-            -Wcast-qual
-            -Wcast-align
-            -Wno-switch
-            -Wconversion>
-            # Disable some warnings when using clang's Weverything
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat-pedantic>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-compat>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-extensions>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c99-extensions>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-zero-as-null-pointer-constant>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
-            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
-            $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
-            $<$<CONFIG:DEBUG>:
-            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-            -ggdb3
-            -O0
-            >
-            $<$<CXX_COMPILER_ID:MSVC>:
-            /GL
-            /LTCG
-            /O3>>
-            $<$<CONFIG:RELEASE>:
-            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-            -Ofast
-            >
-            # TODO: re-add this later
-            # $<$<CXX_COMPILER_ID:MSVC>: /GL /LTCG /O3 >
-            >)
-
-target_link_options(
-  common INTERFACE
-  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined>)
-
-# Threads needed in gcc
-set(THREADS_HAVE_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
-
-# config
-target_link_libraries(${PROJECT_NAME} PRIVATE common)
-
+# add_library(common INTERFACE) target_compile_features(common INTERFACE
+# cxx_std_20) # TODO: add iwty required - curently not working on windows
+# find_program(iwyu_path NAMES include-what-you-use iwyu) set_target_properties(
+# ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
+# INTERPROCEDURAL_OPTIMIZATION TRUE)
+#
+# target_compile_options( common INTERFACE # Prefered warnings
+# $<$<CXX_COMPILER_ID:MSVC>: /Wall /WX> $<$<CXX_COMPILER_ID:Clang>:-Weverything>
+# $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
+# $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
+# -Werror -Wall -Wextra -Wpedantic -Wformat=2 -Wshadow -Wwrite-strings
+# -Wcast-qual -Wcast-align -Wno-switch -Wconversion> # Disable some warnings
+# when using clang's Weverything $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat>
+# $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat-pedantic>
+# $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-compat>
+# $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-extensions>
+# $<$<CXX_COMPILER_ID:Clang>:-Wno-c99-extensions>
+# $<$<CXX_COMPILER_ID:Clang>:-Wno-zero-as-null-pointer-constant>
+# $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
+# $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
+# $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
+# $<$<CONFIG:DEBUG>:
+# $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+# -ggdb3 -O0 > $<$<CXX_COMPILER_ID:MSVC>: /GL /LTCG /O3>> $<$<CONFIG:RELEASE>:
+# $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+# -Ofast > # TODO: re-add this later # $<$<CXX_COMPILER_ID:MSVC>: /GL /LTCG /O3
+# > >)
+#
+# target_link_options( common INTERFACE
+# $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined>)
+#
+# # Threads needed in gcc set(THREADS_HAVE_PTHREAD_FLAG ON) find_package(Threads
+# REQUIRED) target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
+#
+# # config target_link_libraries(${PROJECT_NAME} PRIVATE common)
+#
 # ##############################################################################
 
 # SpdLog
@@ -134,31 +105,21 @@ endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib_cpp)
 
+# #
 # ##############################################################################
-# Ctest
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git # Always fetch the #
-                                                          # latest version
-  GIT_TAG main
-  SYSTEM)
-
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt
-    ON
-    CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
-  option(PACKAGE_TESTS "Build the tests" ON)
-endif()
-
-if(PACKAGE_TESTS)
-  enable_testing()
-  include(GoogleTest)
-  add_subdirectory(tests)
-endif()
+# # Ctest include(FetchContent) FetchContent_Declare( googletest GIT_REPOSITORY
+# https://github.com/google/googletest.git # Always fetch the # # latest version
+# GIT_TAG main SYSTEM)
+#
+# # For Windows: Prevent overriding the parent project's compiler/linker
+# settings set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+# FetchContent_MakeAvailable(googletest)
+#
+# if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME) option(PACKAGE_TESTS "Build the
+# tests" ON) endif()
+#
+# if(PACKAGE_TESTS) enable_testing() include(GoogleTest) add_subdirectory(tests)
+# endif()
 
 # ##############################################################################
 # Set the asset path macro to the absolute path on the dev machine
