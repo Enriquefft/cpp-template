@@ -29,7 +29,7 @@ target_compile_features(
 find_program(iwyu_path NAMES include-what-you-use iwyu)
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
-                             INTERPROCEDURAL_OPTIMIZATION TRUE)
+                             #[[ INTERPROCEDURAL_OPTIMIZATION TRUE ]])
 
 target_compile_options(
   common
