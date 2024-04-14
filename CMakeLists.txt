@@ -74,7 +74,7 @@ target_compile_options(
             -Ofast
             > 
             >
-            >)
+            )
 
 target_link_options(
   common INTERFACE
