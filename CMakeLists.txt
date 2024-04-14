@@ -9,10 +9,8 @@ project(
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
-  message(
-    STATUS
-      "CMake version is less than 3.25.2, upgrade to silence unnecesary warnings"
-  )
+  message(STATUS "CMake version is less than 3.25.2,
+			upgrade to silence unnecesary warnings")
 endif()
 
 # ##############################################################################
@@ -52,11 +50,7 @@ target_compile_options(
             -Wcast-qual
             -Wcast-align
             -Wno-switch
-            -Wconversion> # Disable some warnings
-            when
-            using
-            clang's
-            Weverything
+            -Wconversion> # Disable some warnings when using clang's Weverything
             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat>
             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat-pedantic>
             $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-compat>
