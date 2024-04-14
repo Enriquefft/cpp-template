@@ -36,7 +36,7 @@ target_compile_options(
   INTERFACE # Prefered warnings
             $<$<CXX_COMPILER_ID:MSVC>:
             /Wall
-            /WX>
+            >
             $<$<CXX_COMPILER_ID:Clang>:-Weverything>
             $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
@@ -60,22 +60,22 @@ target_compile_options(
             $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
-            # $<$<CONFIG:DEBUG>:
-            # $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-            # -ggdb3
-            # -O0
-            # >
-            # $<$<CXX_COMPILER_ID:MSVC>:
-            # /GL
-            # /LTCG
-            # /O3>
-						# >
+            $<$<CONFIG:DEBUG>:
+            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+            -ggdb3
+            -O0
+            >
+            $<$<CXX_COMPILER_ID:MSVC>:
+            /GL
+            /LTCG
+            /O3>
+						>
 						
-            # $<$<CONFIG:RELEASE>:
-            # $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-            # -Ofast
-            # > 
-            # >
+            $<$<CONFIG:RELEASE>:
+            $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+            -Ofast
+            > 
+            >
             )
 
 target_link_options(
