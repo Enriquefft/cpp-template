@@ -62,17 +62,12 @@ target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_20)
 #
 # ##############################################################################
 
-# SpdLog
-find_package(spdlog QUIET)
-if(spdlog_FOUND)
-  target_link_libraries(${PROJECT_NAME} PUBLIC spdlog)
-else()
-  # Only use this if spdlog is not installed on your system
-  message(STATUS "SpdLog not found, using bundled version")
-  target_include_directories(${PROJECT_NAME} SYSTEM
-                             PUBLIC ${CMAKE_SOURCE_DIR}/libs/spdlog/)
-endif()
-target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
+# SpdLog find_package(spdlog QUIET) if(spdlog_FOUND)
+# target_link_libraries(${PROJECT_NAME} PUBLIC spdlog) else() # Only use this if
+# spdlog is not installed on your system message(STATUS "SpdLog not found, using
+# bundled version") target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
+# ${CMAKE_SOURCE_DIR}/libs/spdlog/) endif()
+# target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
 
 # Raylib
 find_package(raylib QUIET)
