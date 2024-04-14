@@ -92,18 +92,22 @@ target_link_libraries(${PROJECT_NAME} PRIVATE common)
 
 # ##############################################################################
 
-# SpdLog find_package(spdlog QUIET) if(spdlog_FOUND)
-# target_link_libraries(${PROJECT_NAME} PUBLIC spdlog) else() # Only use this if
-# spdlog is not installed on your system message(STATUS "SpdLog not found, using
-# bundled version") target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
-# ${CMAKE_SOURCE_DIR}/libs/spdlog/) endif()
+include(FetchContent)
+
+# # SpdLog 
+# find_package(spdlog QUIET) 
+# if(spdlog_FOUND)
+# 	target_link_libraries(${PROJECT_NAME} PUBLIC spdlog) 
+# else() # Only use this if spdlog is not installed on your system 
+# 	message(STATUS "SpdLog not found, using bundled version") 
+# 	target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/libs/spdlog/) 
+# endif()
 # target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
 
 # Raylib
 find_package(raylib QUIET)
 if(NOT raylib_FOUND)
   message(STATUS "Raylib (C) not found, downloading latest version")
-  include(FetchContent)
   FetchContent_Declare(
     raylib
     GIT_REPOSITORY https://github.com/raysan5/raylib.git
@@ -116,7 +120,6 @@ endif()
 # raylib-cpp
 if(NOT raylib_cpp_FOUND)
   message(STATUS "Raylib_cpp (C++) not found, downloading latest version")
-  include(FetchContent)
   FetchContent_Declare(
     raylib_cpp
     GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
@@ -133,13 +136,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE raylib_cpp)
 #
 # ##############################################################################
 # Ctest
-include(FetchContent)
 FetchContent_Declare(
   googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git # Always fetch the # #
-                                                          # latest version
-  GIT_TAG main
-  SYSTEM)
+	URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt
@@ -147,12 +147,11 @@ set(gtest_force_shared_crt
     CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-if(PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
-  option(PACKAGE_TESTS "Build the
-tests" ON)
+if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
+  option(PACKAGE_TESTS "Build the tests" ON)
 endif()
 
-if(PACKAGE_TESTS)
+if(${PACKAGE_TESTS})
   enable_testing()
   include(GoogleTest)
   add_subdirectory(tests)
