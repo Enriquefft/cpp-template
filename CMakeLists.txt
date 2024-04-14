@@ -65,10 +65,10 @@ target_compile_options(
             -ggdb3
             -O0
             >
-            $<$<CXX_COMPILER_ID:MSVC>:
-            /GL
-            /LTCG
-            /O3>>
+            # $<$<CXX_COMPILER_ID:MSVC>:
+            # /GL
+            # /LTCG
+            # /O3>>
             $<$<CONFIG:RELEASE>:
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
             -Ofast
