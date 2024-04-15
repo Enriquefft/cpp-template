@@ -2,17 +2,17 @@
 #include <Window.hpp>
 #include <raylib.h>
 
-// #if defined(_WIN32)
-// #define NOGDI  // All GDI defines and routines
-// #define NOUSER // All USER defines and routines
-// #endif
-//
-// #include <spdlog/spdlog.h>
-//
-// #if defined(_WIN32) // raylib uses these names as function parameters
-// #undef near
-// #undef far
-// #endif
+#if defined(_WIN32)
+#define NOGDI  // All GDI defines and routines
+#define NOUSER // All USER defines and routines
+#endif
+
+#include <spdlog/spdlog.h>
+
+#if defined(_WIN32) // raylib uses these names as function parameters
+#undef near
+#undef far
+#endif
 
 constexpr int TARGET_FPS = 60;
 
@@ -31,7 +31,7 @@ auto main() -> int {
 
   SetTargetFPS(TARGET_FPS);
 
-  // spdlog::info("Started drawing");
+  spdlog::info("Started drawing");
 
   while (!window.ShouldClose()) {
     BeginDrawing();
@@ -47,7 +47,7 @@ auto main() -> int {
 
     EndDrawing();
   }
-  // spdlog::info("Finished drawing");
+  spdlog::info("Finished drawing");
 
   return 0;
 }

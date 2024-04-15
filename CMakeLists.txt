@@ -50,14 +50,19 @@ target_compile_options(
             -Wcast-qual
             -Wcast-align
             -Wno-switch
-            -Wconversion> # Disable some warnings when using clang's Weverything
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++98-compat-pedantic>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-compat>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c++20-extensions>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-c99-extensions>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-zero-as-null-pointer-constant>
-            $<$<CXX_COMPILER_ID:Clang>:-Wno-error=padded> #
+            -Wconversion
+						-Wno-ignored-optimization-argument
+						> # Disable some warnings when using clang's Weverything
+            $<$<CXX_COMPILER_ID:Clang>:
+						-Wno-c++98-compat
+            -Wno-c++98-compat-pedantic
+            -Wno-c++20-compat
+            -Wno-c++20-extensions
+            -Wno-c99-extensions
+            -Wno-zero-as-null-pointer-constant
+
+            -Wno-error=padded
+						>
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
             $<$<CONFIG:DEBUG>:
