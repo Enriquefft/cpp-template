@@ -16,13 +16,14 @@ if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
 endif()
 
 # ##############################################################################
-# Dependencies fetching include(FetchContent)
-
-# CROW (api) FetchContent_Declare( Crow GIT_REPOSITORY
-# https://github.com/CrowCpp/Crow GIT_TAG v1.2.0)
-
-
+# Dependencies fetching
 include(FetchContent)
+
+# CROW (api)
+FetchContent_Declare(
+  Crow
+  GIT_REPOSITORY https://github.com/CrowCpp/Crow
+  GIT_TAG v1.2.0)
 
 # Ctest
 FetchContent_Declare(
@@ -31,26 +32,40 @@ FetchContent_Declare(
   GIT_TAG f8d7d77c06936315286eb55f8de22cd23c188571)
 FetchContent_MakeAvailable(Crow googletest)
 
-# Raylib find_package(raylib QUIET) if(NOT raylib_FOUND) message(STATUS "Raylib
-# (C) not found, downloading latest version") FetchContent_Declare( raylib
-# GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master
-# GIT_SHALLOW 1 SYSTEM) FetchContent_MakeAvailable(raylib) endif()
+# Raylib
+find_package(raylib QUIET)
+if(NOT raylib_FOUND)
+  message(STATUS "Raylib (C) not found, downloading latest version")
+  FetchContent_Declare(
+    raylib
+    GIT_REPOSITORY https://github.com/raysan5/raylib.git
+    GIT_TAG master
+    GIT_SHALLOW 1
+    SYSTEM)
+  FetchContent_MakeAvailable(raylib)
+endif()
 
-# raylib-cpp if(NOT raylib_cpp_FOUND) message(STATUS "Raylib_cpp (C++) not
-# found, downloading latest version") FetchContent_Declare( raylib_cpp
-# GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git GIT_TAG master
-# GIT_SHALLOW 1 SYSTEM) FetchContent_MakeAvailable(raylib_cpp) endif()
+# raylib-cpp
+if(NOT raylib_cpp_FOUND)
+  message(STATUS "Raylib_cpp (C++) not found, downloading latest version")
+  FetchContent_Declare(
+    raylib_cpp
+    GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+    GIT_TAG master
+    GIT_SHALLOW 1
+    SYSTEM)
+  FetchContent_MakeAvailable(raylib_cpp)
+endif()
 
 # ##############################################################################
 # Targets
 
-# set(PROJEJCT_APP ${PROJECT_NAME}_app) set(PROJECT_API ${PROJECT_NAME}_api)
+# set(PROJECT_APP ${PROJECT_NAME}_app)
 
 set(PROJECT_LIB ${PROJECT_NAME}_lib)
-add_library(${PROJECT_LIB} src/utils.cpp)
 
-# add_executable(${PROJEJCT_APP} src/main.cpp) add_executable(${PROJECT_API}
-# src/api.cpp)
+add_library(${PROJECT_LIB} src/utils.cpp)
+# add_executable(${PROJECT_APP} src/main.cpp)
 
 target_include_directories(${PROJECT_LIB} PUBLIC include/)
 
@@ -131,33 +146,45 @@ target_link_libraries(${PROJECT_LIB} PUBLIC common)
 # ##############################################################################
 # libraries linking
 
-# SpdLog find_package(spdlog QUIET) if(spdlog_FOUND)
-# target_link_libraries(${PROJECT_NAME} PUBLIC spdlog) else() # Only use this if
-# spdlog is not installed on your system message(STATUS "SpdLog not found, using
-# bundled version") target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
-# ${CMAKE_SOURCE_DIR}/libs/spdlog/) endif()
-# target_compile_definitions(${PROJECT_NAME} PUBLIC SPDLOG_USE_STD_FORMAT)
+# SpdLog
+find_package(spdlog QUIET)
+if(spdlog_FOUND)
+  target_link_libraries(${PROJECT_LIB} PUBLIC spdlog)
+else()
+  # Only use this if spdlog is not installed on your system
+  message(STATUS "SpdLog not found, using bundled version")
+  target_include_directories(${PROJECT_LIB} SYSTEM
+                             PUBLIC ${CMAKE_SOURCE_DIR}/libs/spdlog/)
+endif()
+target_compile_definitions(${PROJECT_LIB} PUBLIC SPDLOG_USE_STD_FORMAT)
 #
-# # link fetched libraries target_link_libraries(${PROJECT_NAME} PUBLIC raylib
-# raylib_cpp Crow::Crow common)
+# link fetched libraries
+target_link_libraries(${PROJECT_LIB} PUBLIC raylib raylib_cpp Crow::Crow common)
 
 # ##############################################################################
-# link to executables target_link_libraries(${PROJEJCT_APP} PRIVATE
-# ${PROJECT_NAME}) target_link_libraries(${PROJECT_API} PRIVATE ${PROJECT_NAME})
+# link to executables target_link_libraries(${PROJECT_APP} PRIVATE
+# ${PROJECT_LIB})
 
 # ##############################################################################
 # GTEST setup
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
-# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-#
-# if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME}) option(PACKAGE_TESTS "Build
-# the tests" ON) endif()
-#
-# if(${PACKAGE_TESTS}) enable_testing() include(GoogleTest)
-# add_subdirectory(tests) endif()
+set(gtest_force_shared_crt
+    ON
+    CACHE BOOL "" FORCE)
+
+if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
+  option(PACKAGE_TESTS "Build
+the tests" ON)
+endif()
+
+if(${PACKAGE_TESTS})
+  enable_testing()
+  include(GoogleTest)
+  add_subdirectory(tests)
+endif()
 
 # ##############################################################################
 # Set the asset path macro to the absolute path on the dev machine
-# target_compile_definitions( ${PROJECT_NAME} PUBLIC
+# target_compile_definitions( ${PROJECT_APP} PUBLIC
 # ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/")

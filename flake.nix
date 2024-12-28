@@ -40,8 +40,7 @@
           openssl
           asio
 
-          # Raylib
-          raylib
+        # raylib # nixpkgs-unstable version is outdated
 
           (pkgs.python312.withPackages (python-pkgs: [ ]))
 
