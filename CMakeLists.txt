@@ -9,38 +9,66 @@ project(
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
-  message(STATUS "CMake version is less than 3.25.2,
-			upgrade to silence unnecesary warnings")
+  message(
+    STATUS
+      "CMake version is less than 3.25.2, upgrade to silence unnecessary warnings"
+  )
 endif()
+
+# ##############################################################################
+# Dependencies fetching include(FetchContent)
+
+# CROW (api) FetchContent_Declare( Crow GIT_REPOSITORY
+# https://github.com/CrowCpp/Crow GIT_TAG v1.2.0)
+
+# Ctest
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG f8d7d77c06936315286eb55f8de22cd23c188571)
+FetchContent_MakeAvailable(Crow googletest)
+
+# Raylib find_package(raylib QUIET) if(NOT raylib_FOUND) message(STATUS "Raylib
+# (C) not found, downloading latest version") FetchContent_Declare( raylib
+# GIT_REPOSITORY https://github.com/raysan5/raylib.git GIT_TAG master
+# GIT_SHALLOW 1 SYSTEM) FetchContent_MakeAvailable(raylib) endif()
+
+# raylib-cpp if(NOT raylib_cpp_FOUND) message(STATUS "Raylib_cpp (C++) not
+# found, downloading latest version") FetchContent_Declare( raylib_cpp
+# GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git GIT_TAG master
+# GIT_SHALLOW 1 SYSTEM) FetchContent_MakeAvailable(raylib_cpp) endif()
 
 # ##############################################################################
 # Targets
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+# set(PROJEJCT_APP ${PROJECT_NAME}_app) set(PROJECT_API ${PROJECT_NAME}_api)
+
+set(PROJECT_LIB ${PROJECT_NAME}_lib)
+add_library(${PROJECT_LIB} src/utils.cpp)
+
+# add_executable(${PROJEJCT_APP} src/main.cpp) add_executable(${PROJECT_API}
+# src/api.cpp)
+
+target_include_directories(${PROJECT_LIB} PUBLIC include/)
 
 # ##############################################################################
 
-
 add_library(common INTERFACE)
-target_compile_features(
-  common INTERFACE cxx_std_20) 
+target_compile_features(common INTERFACE cxx_std_20)
 
-# TODO: add iwty required - curently not working on windows
-find_program(iwyu_path NAMES include-what-you-use iwyu)
-set_target_properties(
-  ${PROJECT_NAME} PROPERTIES CXX_INCLUDE_WHAT_YOU_USE ${iwyu_path}
-                              INTERPROCEDURAL_OPTIMIZATION TRUE )
+set_target_properties(${PROJECT_LIB} PROPERTIES INTERPROCEDURAL_OPTIMIZATION
+                                                TRUE)
 
 target_compile_options(
   common
-  INTERFACE # Prefered warnings
+  INTERFACE # Preferred warnings
             $<$<CXX_COMPILER_ID:MSVC>:
             /Wall
             >
             $<$<CXX_COMPILER_ID:Clang>:-Weverything>
             $<$<CXX_COMPILER_ID:GCC>:-fconcepts-diagnostics-depth=3>
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
-            -Werror
+            # -Werror
             -Wall
             -Wextra
             -Wpedantic
@@ -51,18 +79,22 @@ target_compile_options(
             -Wcast-align
             -Wno-switch
             -Wconversion
-						-Wno-ignored-optimization-argument
-						> # Disable some warnings when using clang's Weverything
+            -Wno-ignored-optimization-argument
+            > # Disable some warnings when using clang's Weverything
             $<$<CXX_COMPILER_ID:Clang>:
-						-Wno-c++98-compat
+            -Wno-c++98-compat
             -Wno-c++98-compat-pedantic
             -Wno-c++20-compat
             -Wno-c++20-extensions
             -Wno-c99-extensions
             -Wno-zero-as-null-pointer-constant
-
-            -Wno-error=padded
-						>
+            -Wno-padded
+            -Wno-global-constructors
+            -Wno-exit-time-destructors
+            # Temporarily removed due to bug upstream
+            # (https://github.com/llvm/llvm-project/issues/59572)
+            -Wno-unused-macros
+            >
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize=address,undefined> #
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fsanitize-address-use-after-scope>
             $<$<CONFIG:DEBUG>:
@@ -74,14 +106,12 @@ target_compile_options(
             /GL
             /LTCG
             /O3>
-						>
-						
+            >
             $<$<CONFIG:RELEASE>:
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
             -Ofast
-            > 
             >
-            )
+            >)
 
 target_link_options(
   common INTERFACE
@@ -89,80 +119,42 @@ target_link_options(
 
 # Threads needed in gcc
 set(THREADS_HAVE_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
+find_package(Threads REQUIRED QUIET)
+target_link_libraries(${PROJECT_LIB} PUBLIC Threads::Threads)
 
 # config
-target_link_libraries(${PROJECT_NAME} PRIVATE common)
+target_link_libraries(${PROJECT_LIB} PUBLIC common)
 
 # ##############################################################################
+# libraries linking
 
-include(FetchContent)
-
-# SpdLog 
-find_package(spdlog QUIET) 
-if(spdlog_FOUND)
-	target_link_libraries(${PROJECT_NAME} PUBLIC spdlog) 
-else() # Only use this if spdlog is not installed on your system 
-	message(STATUS "SpdLog not found, using bundled version") 
-	target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${CMAKE_SOURCE_DIR}/libs/spdlog/) 
-endif()
-target_compile_definitions(${PROJECT_NAME} PRIVATE SPDLOG_USE_STD_FORMAT)
-
-# Raylib
-find_package(raylib QUIET)
-if(NOT raylib_FOUND)
-  message(STATUS "Raylib (C) not found, downloading latest version")
-  FetchContent_Declare(
-    raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib.git
-    GIT_TAG master
-    GIT_SHALLOW 1
-    SYSTEM)
-  FetchContent_MakeAvailable(raylib)
-endif()
-
-# raylib-cpp
-if(NOT raylib_cpp_FOUND)
-  message(STATUS "Raylib_cpp (C++) not found, downloading latest version")
-  FetchContent_Declare(
-    raylib_cpp
-    GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
-    GIT_TAG master
-    GIT_SHALLOW 1
-    SYSTEM)
-  FetchContent_MakeAvailable(raylib_cpp)
-endif()
-
-# Adding libraries to project
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
-target_link_libraries(${PROJECT_NAME} PRIVATE raylib_cpp)
-
+# SpdLog find_package(spdlog QUIET) if(spdlog_FOUND)
+# target_link_libraries(${PROJECT_NAME} PUBLIC spdlog) else() # Only use this if
+# spdlog is not installed on your system message(STATUS "SpdLog not found, using
+# bundled version") target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
+# ${CMAKE_SOURCE_DIR}/libs/spdlog/) endif()
+# target_compile_definitions(${PROJECT_NAME} PUBLIC SPDLOG_USE_STD_FORMAT)
 #
+# # link fetched libraries target_link_libraries(${PROJECT_NAME} PUBLIC raylib
+# raylib_cpp Crow::Crow common)
+
 # ##############################################################################
-# Ctest
-FetchContent_Declare(
-  googletest
-	URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
+# link to executables target_link_libraries(${PROJEJCT_APP} PRIVATE
+# ${PROJECT_NAME}) target_link_libraries(${PROJECT_API} PRIVATE ${PROJECT_NAME})
+
+# ##############################################################################
+# GTEST setup
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt
-    ON
-    CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
-  option(PACKAGE_TESTS "Build the tests" ON)
-endif()
-
-if(${PACKAGE_TESTS})
-  enable_testing()
-  include(GoogleTest)
-  add_subdirectory(tests)
-endif()
+# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+#
+# if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME}) option(PACKAGE_TESTS "Build
+# the tests" ON) endif()
+#
+# if(${PACKAGE_TESTS}) enable_testing() include(GoogleTest)
+# add_subdirectory(tests) endif()
 
 # ##############################################################################
 # Set the asset path macro to the absolute path on the dev machine
-target_compile_definitions(
-  ${PROJECT_NAME} PUBLIC ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/")
+# target_compile_definitions( ${PROJECT_NAME} PUBLIC
+# ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets/")

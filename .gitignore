@@ -1,3 +1,6 @@
+# Nix
+.direnv/
+
 # Caches
 .cache/
 CMakeCache.txt
@@ -5,6 +8,10 @@ CMakeFiles/
 Testing/
 build/
 
+#vscode
+.vscode/
+*.code-workspace
+compile_commands.json
 
 # Prerequisites
 *.d

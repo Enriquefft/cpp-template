@@ -19,6 +19,7 @@ Diagnostics:
       ]
     Remove: [
         # modernize-use-trailing-return-type,
+        bugprone-easily-swappable-parameters,
 
         # Redundant aliases
         hicpp-avoid-c-arrays,
@@ -56,13 +57,3 @@ CompileFlags:
     - "-Wno-zero-as-null-pointer-constant"
     - "-Wno-c++20-compat"
     - "-Wno-vla-extension"
-# ---
-# If:
-#     PathMatch: [.*\.c, .*\.h]
-#     # uncomment to use .h files as c++ headers
-#     # PathMatch: [.*\.c]
-# CompileFlags:
-#     Add:
-#         - "-xc"
-#         - "std=c99"
-#
