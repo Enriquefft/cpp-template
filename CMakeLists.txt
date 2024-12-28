@@ -21,6 +21,9 @@ endif()
 # CROW (api) FetchContent_Declare( Crow GIT_REPOSITORY
 # https://github.com/CrowCpp/Crow GIT_TAG v1.2.0)
 
+
+include(FetchContent)
+
 # Ctest
 FetchContent_Declare(
   googletest
