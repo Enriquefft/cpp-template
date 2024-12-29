@@ -97,19 +97,22 @@ jobs:
 
       - name: Setup vcpkg on Windows
         if: matrix.os == 'windows-latest'
-        uses: lukka/run-vcpkg@v10
-        with:
-          # If your vcpkg.json is in the root of the repo:
-          vcpkgGitCommitId: b322364f06308bdd24823f9d8f03fe0cc86fd46f
+        run: |
+          VCPKG_DEFAULT_TRIPLET=x64-windows vcpkg install
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
         # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-        run: >
+        run: |
+          EXTRA_CMAKE_FLAGS=""
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            EXTRA_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
           -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          ${EXTRA_CMAKE_FLAGS}
           -S ${{ github.workspace }}
 
       - name: Build
