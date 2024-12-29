@@ -61,6 +61,8 @@ jobs:
         shell: bash
         run: |
 
+          WORKSPACE="${{ github.workspace }}"
+
           # If running on Windows, replace backslashes with forward slashes
           if [ "$RUNNER_OS" = "Windows" ]; then
             WORKSPACE="${WORKSPACE//\\//}"
