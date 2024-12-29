@@ -70,7 +70,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           # Install asio
-          winget install --id=MichaelTippach.ASIO4ALL  -e
+          winget install --id=MichaelTippach.ASIO4ALL  -e --accept-source-agreements --accept-package-agreements
 
       - name: Install clang-17 on ubuntu-20
         if: matrix.os == 'ubuntu-20.04' && matrix.c_compiler == 'clang-17'
