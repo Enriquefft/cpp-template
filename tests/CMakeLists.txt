@@ -1,7 +1,7 @@
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 # Include headers for all tests
-include_directories(PUBLIC ../include)
+include_directories(../include)
 
 macro(package_add_test TESTNAME)
   # create an executable in which the tests will be stored
@@ -13,7 +13,7 @@ macro(package_add_test TESTNAME)
   # link the Google test infrastructure, mocking library, and a default main
   # function to the test executable.  Remove g_test_main if writing your own
   # main function.
-    target_link_libraries(${TESTNAME} gtest gmock gtest_main ${PROJECT_NAME})
+  target_link_libraries(${TESTNAME} gtest gmock gtest_main ${PROJECT_LIB})
 
   # gtest_discover_tests replaces gtest_add_tests, see
   # https://cmake.org/cmake/help/v3.10/module/GoogleTest.html for more options
