@@ -62,9 +62,12 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        if: matrix.os == 'windows-latest'
+
       - name: Run on Windows only
         if: matrix.os == 'windows-latest'
-        uses: Cyberboss/install-winget@v1
         run: |
           # Install asio
           winget install --id=MichaelTippach.ASIO4ALL  -e
