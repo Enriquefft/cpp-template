@@ -62,15 +62,18 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
+      - name: Install chocolatey
+        uses: crazy-max/ghaction-chocolatey@v3
+        with:
+          args: -h
         if: matrix.os == 'windows-latest'
 
       - name: Run on Windows only
         if: matrix.os == 'windows-latest'
         run: |
           # Install asio
-          winget install --id=MichaelTippach.ASIO4ALL  -e --accept-source-agreements --accept-package-agreements
+          choco install asio4all
+          # winget install --id=MichaelTippach.ASIO4ALL  -e --accept-source-agreements --accept-package-agreements
 
       - name: Install clang-17 on ubuntu-20
         if: matrix.os == 'ubuntu-20.04' && matrix.c_compiler == 'clang-17'
