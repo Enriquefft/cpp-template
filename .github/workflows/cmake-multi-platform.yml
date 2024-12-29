@@ -60,7 +60,13 @@ jobs:
         id: strings
         shell: bash
         run: |
-          echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+          # If running on Windows, replace backslashes with forward slashes
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            WORKSPACE="${WORKSPACE//\\//}"
+          fi
+
+          echo "build-output-dir=$WORKSPACE/build" >> "$GITHUB_OUTPUT"
 
       - name: Install clang-17 on ubuntu-20
         if: matrix.os == 'ubuntu-20.04' && matrix.c_compiler == 'clang-17'
@@ -110,7 +116,13 @@ jobs:
             EXTRA_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
           fi
 
-          cmake -B ${{ steps.strings.outputs.build-output-dir }} -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ${EXTRA_CMAKE_FLAGS} -S ${{ github.workspace }}
+          cmake \
+          -B "${{ steps.strings.outputs.build-output-dir }}" \
+          -DCMAKE_CXX_COMPILER="${{ matrix.cpp_compiler }}" \
+          -DCMAKE_C_COMPILER="${{ matrix.c_compiler }}" \
+          -DCMAKE_BUILD_TYPE="${{ matrix.build_type }}" \
+          ${EXTRA_CMAKE_FLAGS} \
+          -S "${{ steps.strings.outputs.build-output-dir }}/.."
         shell: bash
 
       - name: Build
