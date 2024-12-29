@@ -47,7 +47,9 @@ jobs:
             c_compiler: gcc-13
           - os: windows-latest
             c_compiler: clang-17
-          - os: ubuntu-latest
+          - os: ubuntu-20.04
+            c_compiler: cl
+          - os: ubuntu-24.04
             c_compiler: cl
 
     steps:
