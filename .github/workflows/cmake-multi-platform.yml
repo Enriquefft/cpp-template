@@ -62,6 +62,12 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
+      - name: Run on Windows only
+        if: matrix.os == 'windows_latest'
+        run: |
+          # Install asio
+          winget install --id=MichaelTippach.ASIO4ALL  -e
+
       - name: Install clang-17 on ubuntu-20
         if: matrix.os == 'ubuntu-20.04' && matrix.c_compiler == 'clang-17'
         run: |
