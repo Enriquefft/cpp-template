@@ -107,6 +107,7 @@ jobs:
           EXTRA_CMAKE_FLAGS=""
           if [ "$RUNNER_OS" == "Windows" ]; then
             EXTRA_CMAKE_FLAGS="-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+          fi
 
           cmake -B ${{ steps.strings.outputs.build-output-dir }}
           -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
