@@ -61,15 +61,11 @@ auto random_num_v(const T &min, const T &max) -> T
 template class RandomNum<int>;
 template class RandomNum<unsigned int>;
 template class RandomNum<float>;
-template class RandomNum<int8_t>;
-template class RandomNum<uint8_t>;
 
 // function explicit instantiation
 template int     random_num_v<int>    (const int     &, const int&);
 template unsigned int    random_num_v<unsigned int>   (const unsigned int    &, const unsigned int&);
 template float   random_num_v<float>  (const float   &, const float&);
-template int8_t  random_num_v<int8_t> (const int8_t  &, const int8_t&);
-template uint8_t random_num_v<uint8_t>(const uint8_t &, const uint8_t&);
 
 
 } // namespace my_utils

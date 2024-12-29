@@ -44,16 +44,12 @@ inline auto random_num_v(const range_t<T> &range) -> T {
 extern template class RandomNum<int>;
 extern template class RandomNum<unsigned int>;
 extern template class RandomNum<float>;
-extern template class RandomNum<int8_t>;
-extern template class RandomNum<uint8_t>;
 
 // function explicit instantiation
 extern template int random_num_v<int>(const int &, const int &);
 extern template unsigned int random_num_v<unsigned int>(const unsigned int &,
                                                         const unsigned int &);
 extern template float random_num_v<float>(const float &, const float &);
-extern template int8_t random_num_v<int8_t>(const int8_t &, const int8_t &);
-extern template uint8_t random_num_v<uint8_t>(const uint8_t &, const uint8_t &);
 
 } // namespace my_utils
 
