@@ -26,7 +26,7 @@ auto main() -> int {
   // constexpr int TEXT_X_POS = 190;
   // constexpr int TEXT_Y_POS = 200;
   // constexpr int TEXT_FONT_SIZE = 20;
-    std::cout << "Hello, World!" << std::endl;
+  std::cout << "Hello, World!" << std::endl;
 
   // raylib::Window window(SCREEN_WIDTH, SCREEN_HEIGHT,
   //                       "raylib-cpp - basic window");

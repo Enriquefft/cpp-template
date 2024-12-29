@@ -24,13 +24,15 @@ include(FetchContent)
 FetchContent_Declare(
   Crow
   GIT_REPOSITORY https://github.com/CrowCpp/Crow
-  GIT_TAG v1.2.0)
+  GIT_TAG v1.2.0
+  SYSTEM)
 
 # Ctest
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG f8d7d77c06936315286eb55f8de22cd23c188571)
+  GIT_TAG f8d7d77c06936315286eb55f8de22cd23c188571
+  SYSTEM)
 FetchContent_MakeAvailable(Crow googletest)
 
 # # Raylib
@@ -87,9 +89,8 @@ check_ipo_supported(
   LANGUAGES ${LANGUAGES})
 if(result)
   message(STATUS "IPO is supported")
-  # TODO: verify if IPO should be enabled
-  # set_target_properties(${PROJECT_LIB} PROPERTIES INTERPROCEDURAL_OPTIMIZATION
-  # TRUE)
+  # TODO: verify if IPO should be enabled set_target_properties(${PROJECT_LIB}
+  # PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
 else()
   message(WARNING "IPO is not supported")
 endif()

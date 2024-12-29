@@ -16,7 +16,7 @@ repos:
           - -p=./build
         id: clang-tidy
       - args:
-          - --filter=-whitespace,-legal/copyright,-runtime/references,-build/include_order,-build/c++11
+          - --filter=-whitespace,-legal/copyright,-runtime/references,-build/include_order,-build/c++11,-build/include_subdir
         id: cpplint
     repo: https://github.com/pocc/pre-commit-hooks
     rev: v1.3.5
