@@ -87,8 +87,9 @@ check_ipo_supported(
   LANGUAGES ${LANGUAGES})
 if(result)
   message(STATUS "IPO is supported")
-  set_target_properties(${PROJECT_LIB} PROPERTIES INTERPROCEDURAL_OPTIMIZATION
-                                                  TRUE)
+  # TODO: verify if IPO should be enabled
+  # set_target_properties(${PROJECT_LIB} PROPERTIES INTERPROCEDURAL_OPTIMIZATION
+  # TRUE)
 else()
   message(WARNING "IPO is not supported")
 endif()
