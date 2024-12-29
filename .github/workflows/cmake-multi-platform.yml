@@ -63,7 +63,7 @@ jobs:
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
       - name: Run on Windows only
-        if: matrix.os == 'windows_latest'
+        if: matrix.os == 'windows-latest'
         run: |
           # Install asio
           winget install --id=MichaelTippach.ASIO4ALL  -e
