@@ -144,7 +144,7 @@ target_compile_options(
     >
     $<$<CONFIG:RELEASE>:
     $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
-    -Ofast
+    -O3
     >
     >)
 
