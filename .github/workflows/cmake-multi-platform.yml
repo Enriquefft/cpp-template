@@ -62,19 +62,6 @@ jobs:
         run: |
           echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-      - name: Install chocolatey
-        uses: crazy-max/ghaction-chocolatey@v3
-        with:
-          args: -h
-        if: matrix.os == 'windows-latest'
-
-      - name: Run on Windows only
-        if: matrix.os == 'windows-latest'
-        run: |
-          # Install asio
-          choco install asio4all
-          # winget install --id=MichaelTippach.ASIO4ALL  -e --accept-source-agreements --accept-package-agreements
-
       - name: Install clang-17 on ubuntu-20
         if: matrix.os == 'ubuntu-20.04' && matrix.c_compiler == 'clang-17'
         run: |
@@ -107,6 +94,14 @@ jobs:
 
 
           sudo apt install iwyu
+
+      - name: Setup vcpkg on Windows
+        if: matrix.os == 'windows-latest'
+        uses: lukka/run-vcpkg@v10
+        with:
+          # If your vcpkg.json is in the root of the repo:
+          vcpkgJsonPath: .
+          # If it's in a subfolder, specify that subfolder.
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
