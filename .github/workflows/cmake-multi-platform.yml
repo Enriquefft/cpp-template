@@ -100,8 +100,7 @@ jobs:
         uses: lukka/run-vcpkg@v10
         with:
           # If your vcpkg.json is in the root of the repo:
-          vcpkgJsonPath: .
-          # If it's in a subfolder, specify that subfolder.
+          vcpkgGitCommitId: b322364f06308bdd24823f9d8f03fe0cc86fd46f
 
       - name: Configure CMake
         # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
